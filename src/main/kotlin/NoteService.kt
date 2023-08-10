@@ -71,7 +71,7 @@ object NoteService {
             commentedNote.comments.remove(deletedComment)
         }
     }
-    fun updateComment(noteId: Int, comment: Comments):Boolean {
+    fun updateComment(noteId: Int, comment: Comments):Boolean { //обновляет комментарий по ID заметки
         val commentedNote = notes.find { it.id == noteId }
         if (commentedNote == null) {
             throw NoteNotFoundException("Заметка с ID$noteId не найдена")
@@ -83,7 +83,7 @@ object NoteService {
             return true
         }
     }
-    fun restoreComment(commentId: Int, noteId: Int):Boolean {
+    fun restoreComment(commentId: Int, noteId: Int):Boolean { //восстанавливает удаленный комментарий
         val restoredComment = deletedComments.find {it.id == commentId}
         val updatedNote = notes.find { it.id == noteId }
         if (restoredComment != null) {
