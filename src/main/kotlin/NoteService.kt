@@ -121,11 +121,5 @@ object NoteService {
 }
 
 fun main(){
-    NoteService.addNote(note = Note(title = "Заметка", text = "Купить продукты"))
-    NoteService.addNote(note = Note(title = "Заметка 2", text = "Продать хлам"))
-    NoteService.createComment(1, comment = Comments(text = "заметка раз"))
-    NoteService.createComment(1, comment = Comments(text = "заметка два"))
-    println(NoteService.getNotes())
-
 
 }
