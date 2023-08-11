@@ -111,4 +111,36 @@ class NoteServiceTest {
         NoteService.deleteComment(1,1)
         assertFalse(NoteService.restoreComment(2,1))
     }
+    @Test(expected = NoteNotFoundException::class)
+    fun getByIdNonExistingNote() {
+        val note = Note(title = "test", text = "test")
+        NoteService.addNote(note)
+        NoteService.getById(2)
+    }
+    @Test
+    fun getByIdExistingNote() {
+        val note = Note(title = "test", text = "test")
+        NoteService.addNote(note)
+        NoteService.getById(1)
+    }
+    @Test(expected = NoteNotFoundException::class)
+    fun getCommentsNonExistingNote() {
+        val note = Note(title = "test", text = "test")
+        NoteService.addNote(note)
+        NoteService.createComment(1, comment = Comments(text = "test comment"))
+        NoteService.getComments(2)
+    }
+    @Test
+    fun getCommentsExistingNote() {
+        val note = Note(title = "test", text = "test")
+        NoteService.addNote(note)
+        NoteService.createComment(1, comment = Comments(text = "test comment"))
+        NoteService.getComments(1)
+    }
+    @Test
+    fun getNotesOk() {
+        val note = Note(title = "test", text = "test")
+        NoteService.addNote(note)
+        NoteService.getNotes()
+    }
 }

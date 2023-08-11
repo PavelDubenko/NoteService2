@@ -18,14 +18,30 @@ class NoteNotFoundException(s: String) : Throwable()
 object NoteService {
 
     var notes = mutableListOf<Note>()
-    var lastNoteId = 0
-    var deletedComments = mutableListOf<Comments>()
-    var lastCommentId = 0
+    private var lastNoteId = 0
+    private var deletedComments = mutableListOf<Comments>()
+    private var lastCommentId = 0
 
 
     fun addNote(note: Note):Note {                     //добавляет заметку
         notes += note.copy(id = ++lastNoteId)
         return notes.last()
+    }
+    fun getNotes(): Any { //возвращает все созданные заметки
+        if (notes.isEmpty()) {
+            println("Cписок заметок пуст")
+        }
+        return notes
+    }
+
+
+    fun getById(id: Int): Note { //возвращает заметку по ID
+       val note = notes.find { it.id == id }
+        return note ?: throw NoteNotFoundException("Note with ID$id not found")
+    }
+    fun getComments(id: Int):MutableList<Comments> { //возвращает кооментарии по ID заметки
+        val note = notes.find { it.id == id }
+        return note?.comments ?: throw NoteNotFoundException("Note with ID$id not found")
     }
 
     fun deleteNote(id: Int) {                          //удаляет заметку по ID
@@ -106,12 +122,10 @@ object NoteService {
 
 fun main(){
     NoteService.addNote(note = Note(title = "Заметка", text = "Купить продукты"))
-    NoteService.createComment(1, comment = Comments(text = "готово"))
-    NoteService.createComment(1, comment = Comments(text = "готово"))
-    NoteService.printAllNotes()
-    NoteService.deleteComment(1,1)
-    NoteService.printAllNotes()
-    NoteService.restoreComment(1,1)
-    NoteService.printAllNotes()
+    NoteService.addNote(note = Note(title = "Заметка 2", text = "Продать хлам"))
+    NoteService.createComment(1, comment = Comments(text = "заметка раз"))
+    NoteService.createComment(1, comment = Comments(text = "заметка два"))
+    println(NoteService.getNotes())
+
 
 }
